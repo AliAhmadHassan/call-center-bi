@@ -1,0 +1,190 @@
+﻿@model ControlDesk.WebApplication.Models.Operador
+
+@{
+    ViewBag.Title = "Novo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Novo Operador</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Nome)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Nome)
+            @Html.ValidationMessageFor(model => model.Nome)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Inicio)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Inicio)
+            @Html.ValidationMessageFor(model => model.Inicio)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Fim)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Fim)
+            @Html.ValidationMessageFor(model => model.Fim)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa07)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa07)
+            @Html.ValidationMessageFor(model => model.TotalPausa07)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa08)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa08)
+            @Html.ValidationMessageFor(model => model.TotalPausa08)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa09)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa09)
+            @Html.ValidationMessageFor(model => model.TotalPausa09)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa10)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa10)
+            @Html.ValidationMessageFor(model => model.TotalPausa10)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa11)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa11)
+            @Html.ValidationMessageFor(model => model.TotalPausa11)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa12)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa12)
+            @Html.ValidationMessageFor(model => model.TotalPausa12)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa13)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa13)
+            @Html.ValidationMessageFor(model => model.TotalPausa13)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa14)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa14)
+            @Html.ValidationMessageFor(model => model.TotalPausa14)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa15)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa15)
+            @Html.ValidationMessageFor(model => model.TotalPausa15)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa16)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa16)
+            @Html.ValidationMessageFor(model => model.TotalPausa16)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa17)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa17)
+            @Html.ValidationMessageFor(model => model.TotalPausa17)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa18)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa18)
+            @Html.ValidationMessageFor(model => model.TotalPausa18)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa19)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa19)
+            @Html.ValidationMessageFor(model => model.TotalPausa19)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa20)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa20)
+            @Html.ValidationMessageFor(model => model.TotalPausa20)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TotalPausa21)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TotalPausa21)
+            @Html.ValidationMessageFor(model => model.TotalPausa21)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IdGrupo)
+        </div>
+        <div class="editor-field">
+            @{
+                List<SelectListItem> itens = new List<SelectListItem>();
+              foreach(ControlDesk.Dominio.Grupo grupo in new ControlDesk.Dominio.Grupo().Grupos())  {
+                  itens.Add( new SelectListItem(){
+                      Text = grupo.Descricao, Value = grupo.Id.ToString()
+                  });
+              }
+              }
+            
+            @Html.DropDownListFor(model => model.IdGrupo, itens)
+            @Html.ValidationMessageFor(model => model.IdGrupo)
+        </div>
+
+        <p>
+            <input type="submit" value="Salvar" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Voltar", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ControlDesk.WebApplication.Models.Logados>
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GrupoAtendimento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PessoasLogadas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td style="border:solid 1px silver">
+            @Html.DisplayFor(modelItem => item.GrupoAtendimento)
+        </td>
+        <td style="border:solid 1px silver; text-align:center;">
+            @Html.DisplayFor(modelItem => item.PessoasLogadas)
+        </td>
+        <td style="border: solid 1px silver; text-align: center;">
+            @Html.DisplayFor(modelItem => item.Capacity)
+        </td>
+    </tr>
+}
+
+</table>

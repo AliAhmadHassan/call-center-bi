@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Control Desk</h2>
+
+<div style="display:table">
+    <div style="display:table-row">
+        @Html.Action("Index", "Mailing")
+    </div>
+    <div style="display:table-row">
+        <div style="display:table-cell">
+            @Html.Action("Index", "Atividade")
+        </div>
+        <div style="display:table-cell">
+            @Html.Action("Index", "Logados")
+        </div>
+    </div>
+</div>

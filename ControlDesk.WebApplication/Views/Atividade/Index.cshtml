@@ -1,0 +1,165 @@
+﻿@model IEnumerable<ControlDesk.WebApplication.Models.Atividade>
+
+@{
+    DateTime UltimaAtualizacaoPausa = new DateTime();
+    foreach (var item in Model)
+    {
+        if (item.QtdPausas > 0)
+        {
+            UltimaAtualizacaoPausa = item.DataAtualizacaoPausa;
+            break;
+        }
+    }
+
+    List<ControlDesk.Dominio.Operador> operadores = new ControlDesk.Dominio.Operador().Operadores();
+}
+
+<table style="text-align:center">
+    <tr>
+        <th>
+            @Html.ActionLink("Operador", "Index", "Operador")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TempoStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Campanha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Atendidas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TMA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QtdPausas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalPausas)
+        </th>
+        <th>
+            Limite
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        ControlDesk.Dominio.Mailing mailing = new ControlDesk.Dominio.Mailing().Mailings(DateTime.Today).Where(c => c.Campanha.ToUpper().Trim().Equals(item.Campanha.ToUpper().Trim())).FirstOrDefault();
+        ControlDesk.Dominio.Operador operador = operadores.Where(c => c.Nome.Trim().ToUpper().Contains(item.Operador.ToUpper().Trim().Replace("...", ""))).FirstOrDefault();
+        
+        string corProblema = "Red; color: white;";
+        
+        string corStatus = "white";
+        string corPausa = "white";
+        string corTMA = "white";
+        double MinutosLimitePausa = 9999;
+
+        if (item.Status.Trim() == "Logado") { corStatus = "#B5EDE1"; }
+        else if (item.Status.Trim() == "Linha Presa") { corStatus = "#969696"; }
+        else if (item.Status.Contains("Pausa")) { corStatus = "#FFA2A4"; }
+        else if (item.Status == "Falando") { corStatus = "lightGreen"; }
+        else if (item.Status == "Ocioso") { corStatus = "yellow"; }
+
+        if (mailing != null)
+        {
+            if ((((item.TMA.TotalSeconds) > (mailing.TMA.TotalSeconds + mailing.TMA.TotalSeconds * .3)) ||
+                ((item.TMA.TotalSeconds) < (mailing.TMA.TotalSeconds - mailing.TMA.TotalSeconds * .3)))
+                && (item.TMA.TotalSeconds != 0)) { corTMA = corProblema; }
+            else { corTMA = corStatus; }
+        }
+        else
+        { corTMA = corStatus + "; color:red;"; }
+
+        if (operador != null)
+        {
+            switch (DateTime.Now.Hour + 1)
+            {
+                case 07: MinutosLimitePausa = operador.TotalPausa07.TotalSeconds; break;
+                case 08: MinutosLimitePausa = operador.TotalPausa08.TotalSeconds; break;
+                case 09: MinutosLimitePausa = operador.TotalPausa09.TotalSeconds; break;
+                case 10: MinutosLimitePausa = operador.TotalPausa10.TotalSeconds; break;
+                case 11: MinutosLimitePausa = operador.TotalPausa11.TotalSeconds; break;
+                case 12: MinutosLimitePausa = operador.TotalPausa12.TotalSeconds; break;
+                case 13: MinutosLimitePausa = operador.TotalPausa13.TotalSeconds; break;
+                case 14: MinutosLimitePausa = operador.TotalPausa14.TotalSeconds; break;
+                case 15: MinutosLimitePausa = operador.TotalPausa15.TotalSeconds; break;
+                case 16: MinutosLimitePausa = operador.TotalPausa16.TotalSeconds; break;
+                case 17: MinutosLimitePausa = operador.TotalPausa17.TotalSeconds; break;
+                case 18: MinutosLimitePausa = operador.TotalPausa18.TotalSeconds; break;
+                case 19: MinutosLimitePausa = operador.TotalPausa19.TotalSeconds; break;
+                case 20: MinutosLimitePausa = operador.TotalPausa20.TotalSeconds; break;
+                case 21: MinutosLimitePausa = operador.TotalPausa21.TotalSeconds; break;
+            }
+
+            if (item.TotalPausas.TotalSeconds > MinutosLimitePausa)
+            {
+                corPausa = corProblema;
+            }
+            else
+            {
+                    corPausa = corStatus;
+            }
+        }
+        else
+        {
+            corPausa = corStatus + "; color:red;";
+        }
+
+
+        <tr>
+            <td style="border:solid 1px silver; text-align:left; background-color:@(corStatus)">
+                @Html.DisplayFor(modelItem => item.Operador)
+            </td>
+            <td style="border: solid 1px silver; background-color: @(corStatus)">
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td style="border: solid 1px silver; background-color: @(corStatus)">
+                @Html.DisplayFor(modelItem => item.TempoStatus)
+            </td>
+            <td style="border: solid 1px silver; background-color: @(corStatus)">
+                @Html.DisplayFor(modelItem => item.Campanha)
+            </td>
+            <td style="border: solid 1px silver; background-color: @(corStatus)">
+                @if (item.Atendidas != -1)
+                {
+                    @Html.DisplayFor(modelItem => item.Atendidas)
+                }
+            </td>
+            <td style="border: solid 1px silver; border: solid 1px silver; background-color: @(corTMA)">
+                @if (item.QtdPausas != -1)
+                {
+                    @Html.DisplayFor(modelItem => item.TMA)
+                }
+            </td>
+            <td style="border:solid 1px silver; background-color:@(corPausa)">
+                @if (item.QtdPausas != -1)
+                {
+                    @Html.DisplayFor(modelItem => item.QtdPausas)
+                }
+            </td>
+            <td style="border: solid 1px silver; border: solid 1px silver; background-color: @(corPausa)">
+                @if (item.QtdPausas != -1)
+                {
+                    @Html.DisplayFor(modelItem => item.TotalPausas)
+                }
+            </td>
+            <td style="border: solid 1px silver; border: solid 1px silver; background-color: @(corStatus)">
+                @if (corPausa == corProblema)
+                {
+                    <span></span>@(TimeSpan.FromSeconds(MinutosLimitePausa))<span></span>
+                }
+            </td>
+
+        </tr>
+    }
+    <tr>
+        <td colspan="6" style="text-align:right; font-size:x-small">@Html.DisplayNameFor(model => model.DataAtualizacaoAtividade) = @Html.DisplayFor(model => model.FirstOrDefault().DataAtualizacaoAtividade)</td>
+    </tr>
+    <tr>
+        <td colspan="6" style="text-align:right; font-size:x-small">@Html.DisplayNameFor(model => model.DataAtualizacaoPausa) = @(UltimaAtualizacaoPausa))</td>
+    </tr>
+</table>
